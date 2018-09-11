@@ -19,10 +19,10 @@ function createWindow () {
    * Initial window options
    */
   mainWindow = new BrowserWindow({
-    height: 768,
+    height: 1024,
     useContentSize: true,
     width: 2048,
-    maxHeight:768,
+    maxHeight:1024,
     maxWidth:2048,
     frame:false,
     webPreferences: {
@@ -54,19 +54,28 @@ function createWindow () {
     const enter = globalShortcut.register('Enter',()=>{
       mainWindow.webContents.send('key','enter')
     })
+    // const exit = globalShortcut.register('Esc',()=>{
+    //   app.quit()
+    // })const exit = globalShortcut.register('Esc',()=>{
+    //   app.quit()
+    // })
   })
   
 }
 const baseUrl = app.getAppPath()
+// const baseUrl = app.getPath('desktop')
 var pics = []
 const filePath =require('path').join(baseUrl,'../../','/config.xml') 
- 
+// const filePath =require('path').join(baseUrl,'/config.xml') 
+
+ console.log(filePath)
 ipcMain.on('asynchronous-message', (event, arg) => {
   console.log('------')
         require('fs').readFile(filePath,function(err,data){
         xml2js.parseString(data, {explicitArray : false}, function(err, json){ 
              _.map(json.data.node,item=>{
               console.log(item.$.pic)
+              // var p= require('path').join(baseUrl,item.$.pic) 
               var p= require('path').join(baseUrl,'../../',item.$.pic) 
               pics.push(p)
               return p

@@ -62,11 +62,14 @@ export default {
 
 <style scoped>
 .book{
-  background-image: url("~@/assets/book.png")
+  background-image: url("~@/assets/book.png");
+  background-repeat: no-repeat;
+  background-size: 100% 100%
 }
 .main{
   background-image: url("~@/assets/mainpage.jpg");
-  background-repeat: no-repeat
+  background-repeat: no-repeat;
+  background-size:100% 100%
 }
 .full{
   position:absolute;
