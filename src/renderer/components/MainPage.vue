@@ -1,7 +1,9 @@
 <template>
   <div class="full main">
-    <div class='full' style="backgroundColor:transparent" @click="currentPage ='book'">
-    </div>
+    <!-- <div class='full' style="backgroundColor:transparent" @click="currentPage ='book'">
+
+    </div> -->
+    <webview class ='full' src = 'static/index.swf' plugins ="true"/>
     <div class="full book" v-if="currentPage=='book'">
       <div id="three-container"></div>
     </div> 

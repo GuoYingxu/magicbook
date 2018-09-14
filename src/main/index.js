@@ -9,6 +9,22 @@ if (process.env.NODE_ENV !== 'development') {
   global.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\')
 }
 
+let ppfp ="";
+
+if(process.env.NODE_ENV !== 'development'){
+  let base  = app.getAppPath();
+  ppfp= process.arch=='x64'? require('path').join(base,'../../','/pepflashplayer64_30_0_0_113.dll'):require('path').join(baase,'../../','/pepflashplayer32_30_0_0_113.dll')
+}else{
+
+  ppfp= process.arch=='x64'? require('path').join(__static,'flash/pepflashplayer64_30_0_0_113.dll'):require('path').join(__static,'/flash/pepflashplayer32_30_0_0_113.dll')
+}
+//设定插件
+// console.log(app.getPath('pepperFlashSystemPlugin'))
+// console.log(ppfp)
+app.commandLine.appendSwitch('ppapi-flash-path',ppfp);
+//设定插件版本（不知道是否真有用，不匹配貌似也能运行）
+app.commandLine.appendSwitch('ppapi-flash-version', '30.0.0.113');
+
 let mainWindow
 const winURL = process.env.NODE_ENV === 'development'
   ? `http://localhost:9080`
@@ -26,7 +42,8 @@ function createWindow () {
     maxWidth:2048,
     frame:false,
     webPreferences: {
-      webSecurity: false
+      webSecurity: false,
+      plugins: true
     },
     resizable :false,
     x:0,
