@@ -48,7 +48,7 @@ function createWindow () {
     resizable :false,
     x:0,
     y:0,
-    fullscreen:true
+    fullscreen:process.env.NODE_ENV!=='development'
   })
 
   mainWindow.loadURL(winURL)
@@ -79,21 +79,29 @@ function createWindow () {
   })
   
 }
-const baseUrl = app.getAppPath()
-// const baseUrl = app.getPath('desktop')
-var pics = []
-const filePath =require('path').join(baseUrl,'../../','/config.xml') 
-// const filePath =require('path').join(baseUrl,'/config.xml') 
+var baseUrl ;
+var pics = [];
+var filePath ;
 
- console.log(filePath)
+if(process.env.NODE_ENV !=='development'){
+  baseUrl = require('path').join(app.getAppPath(),'../../');
+}else{
+  baseUrl = app.getPath('desktop');
+}
+filePath = require('path').join(baseUrl,'/config.xml')
+
+
 ipcMain.on('asynchronous-message', (event, arg) => {
-  console.log('------')
         require('fs').readFile(filePath,function(err,data){
         xml2js.parseString(data, {explicitArray : false}, function(err, json){ 
+            console.log(json.data.node)
              _.map(json.data.node,item=>{
-              console.log(item.$.pic)
-              // var p= require('path').join(baseUrl,item.$.pic) 
-              var p= require('path').join(baseUrl,'../../',item.$.pic) 
+               var p = {}
+               p.pic= require('path').join(baseUrl,item.$.pic) 
+              if(item.$.video){
+                p.video = require('path').join(baseUrl,item.$.video)
+                p.placement = item.$.placement
+              }
               pics.push(p)
               return p
             }) 

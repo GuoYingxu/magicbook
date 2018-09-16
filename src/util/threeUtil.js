@@ -3,7 +3,7 @@ var sliders = []
 var index =0 
 var tl;
 var root;
-var list;
+var list=[];
 var pre;
 var next;
 var isTweenning =false
@@ -16,6 +16,13 @@ function setPre(){
   l1.load(list[index], function(img) {
     pre.setImage(img);
   })
+}
+var listenhandler =null;
+function listen(cb){
+  listenhandler =cb
+}
+function getIndex(){
+  return index;
 }
 function init(_list) {
   list = _list
@@ -42,6 +49,9 @@ function complete(){
   root.scene.add(pre)
   tl.clear()
   root.scene.remove(next)
+  if(listenhandler){
+    listenhandler()
+  }
 }
 function completel(){
   isTweenning = false
@@ -53,6 +63,9 @@ function completel(){
   root.scene.add(pre)
   tl.clear()
   root.scene.remove(next)
+  if(listenhandler){
+    listenhandler()
+  }
 }
 
 function left(){
@@ -496,5 +509,7 @@ function createTweenScrubber(tween, seekSpeed) {
 export default  {
   init:init,
   left:left,
-  right:right
+  right:right,
+  getIndex:getIndex,
+  listen:listen
 }
