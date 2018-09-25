@@ -79,6 +79,7 @@ function createWindow () {
   })
   
 }
+
 var baseUrl ;
 var pics = [];
 var filePath ;
