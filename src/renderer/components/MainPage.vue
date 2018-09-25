@@ -33,17 +33,26 @@ export default {
      require('electron').ipcRenderer.on('key', (event, message) => {
         console.log(message) // Prints 'whoooooooh!'
         if(message == 'left'){
-          this.doLeft()
+          if(this.currentPage == 'main'){
+            this.currentPage = 'book'
+          }else{
+            this.doLeft()
+          }
         }
         if(message =='right'){
-          this.doRight()
+          if(this.currentPage =='main'){
+            this.currentPage = 'book'
+          }else{
+
+            this.doRight()
+          }
         }
         if(message == 'back'){
           this.currentPage = 'main'
         }
-        if(message == 'enter'){
-          this.currentPage = 'book'
-        }
+        // if(message == 'enter'){
+        //   this.currentPage = 'book'
+        // }
       })
   },
   watch:{

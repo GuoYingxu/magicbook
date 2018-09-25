@@ -65,11 +65,11 @@ function createWindow () {
       
       mainWindow.webContents.send('key','right')
     })
-    const back = globalShortcut.register('BackSpace',()=>{
-      mainWindow.webContents.send('key','back')
-    })
+    // const back = globalShortcut.register('BackSpace',()=>{
+    //   mainWindow.webContents.send('key','back')
+    // })
     const enter = globalShortcut.register('Enter',()=>{
-      mainWindow.webContents.send('key','enter')
+      mainWindow.webContents.send('key','back')
     })
     // const exit = globalShortcut.register('Esc',()=>{
     //   app.quit()
