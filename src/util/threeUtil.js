@@ -10,7 +10,7 @@ var isTweenning =false
 let width = 157;
 let height = 70;
 function setPre(){ 
-  pre = new Slide(width, height, 'out');
+  if(!pre) pre = new Slide(width, height, 'out');
   let l1 = new THREE.ImageLoader();
   l1.setCrossOrigin('Anonymous');
   l1.load(list[index], function(img) {
@@ -43,12 +43,12 @@ function complete(){
   if(!tl)
     return;
   tl.remove(pre)
-  root.scene.remove(pre)
+  // root.scene.remove(pre)
   index ++;
   setPre()
   root.scene.add(pre)
   tl.clear()
-  root.scene.remove(next)
+  // root.scene.remove(next)
   if(listenhandler){
     listenhandler()
   }
@@ -57,12 +57,12 @@ function completel(){
   isTweenning = false
   if(!tl) return;
   tl.remove(pre)
-  root.scene.remove(pre)
+  // root.scene.remove(pre)
   index --;
   setPre()
   root.scene.add(pre)
   tl.clear()
-  root.scene.remove(next)
+  // root.scene.remove(next)
   if(listenhandler){
     listenhandler()
   }
@@ -81,7 +81,7 @@ function left(){
     
     tl = new TimelineMax({repeat:0,repeatDelay:1.0,yoyo:false,onComplete:completel})
  
-    next =  new Slide(width, height, 'in');
+    if(!next) next =  new Slide(width, height, 'in');
     var l2 = new THREE.ImageLoader();
     l2.setCrossOrigin('Anonymous');
     l2.load(list[index-1], function(img) {
@@ -107,7 +107,7 @@ function right(){
     
     tl = new TimelineMax({repeat:0,repeatDelay:1.0,yoyo:false,onComplete:complete})
    
-    next =  new Slide(width, height, 'in');
+    if(!next) next =  new Slide(width, height, 'in');
     var l2 = new THREE.ImageLoader();
     l2.setCrossOrigin('Anonymous');
     l2.load(list[index+1], function(img) {
