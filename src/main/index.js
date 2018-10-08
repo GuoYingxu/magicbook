@@ -35,10 +35,10 @@ function createWindow () {
    * Initial window options
    */
   mainWindow = new BrowserWindow({
-    height: 1024,
+    height: 768,
     useContentSize: true,
     width: 2048,
-    maxHeight:1024,
+    maxHeight:768,
     maxWidth:2048,
     frame:false,
     webPreferences: {
@@ -59,11 +59,11 @@ function createWindow () {
   mainWindow.webContents.on('did-finish-load', () => {
     const ret = globalShortcut.register('Left', () => {
       // console.log('CommandOrControl+X is pressed')
-      mainWindow.webContents.send('key','left')
+      mainWindow.webContents.send('key','right')
     })
     const right = globalShortcut.register('Right',()=>{
       
-      mainWindow.webContents.send('key','right')
+      mainWindow.webContents.send('key','left')
     })
     // const back = globalShortcut.register('BackSpace',()=>{
     //   mainWindow.webContents.send('key','back')

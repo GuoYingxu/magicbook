@@ -137,16 +137,16 @@ export default {
   z-index: 1000;
   width: 550px;
   height:300px;
-  left:300px;
-  top:360px;
+  left:400px;
+  top:240px;
 }
 .right-vi{
   position: absolute;
   z-index: 1000;
   width: 550px;
   height:300px;
-  left:1220px;
-  top:360px;
+  left:1080px;
+  top:240px;
 }
 .right-bottom{
   position : absolute;
