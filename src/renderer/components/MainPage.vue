@@ -137,7 +137,7 @@ export default {
   z-index: 1000;
   width: 550px;
   height:300px;
-  left:400px;
+  left:300px;
   top:240px;
 }
 .right-vi{
@@ -145,7 +145,7 @@ export default {
   z-index: 1000;
   width: 550px;
   height:300px;
-  left:1080px;
+  left:1180px;
   top:240px;
 }
 .right-bottom{

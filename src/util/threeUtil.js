@@ -7,7 +7,7 @@ var list=[];
 var pre;
 var next;
 var isTweenning =false
-let width = 157;
+let width = 207;
 let height = 70;
 function setPre(){ 
   if(!pre) pre = new Slide(width, height, 'out');
