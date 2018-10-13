@@ -30,28 +30,31 @@ function getIndex(){
 
 function init(_list,__index) {
   index = __index
-  list = _list
-  if(!root){
-
+  console.log("===init",index)
+  list = _list 
+  if(!root){ 
     root = new THREERoot({
       createCameraControls: !true,
       antialias: (window.devicePixelRatio === 1),
       fov: 66
-    });
-    
+    }); 
+  }  
+  root.renderer.setClearColor(0x000000, 0);
+  root.renderer.setPixelRatio(window.devicePixelRatio || 1);
+  root.camera.position.set(0, 0, 65);
+  if(tl){
+    tl.clear()
   }
-    root.renderer.setClearColor(0x000000, 0);
-    root.renderer.setPixelRatio(window.devicePixelRatio || 1);
-    root.camera.position.set(0, 0, 65);
-  setPre()
-  root.scene.add(pre);
+  next&& root.scene.remove(next)
+  setPre() 
+  pre.reset()
+  root.scene.add(pre); 
 }
 function complete(){
   isTweenning = false
   if(!tl)
     return;
   tl.remove(pre)
-  // root.scene.remove(pre)
   index ++;
   setPre()
   root.scene.add(pre)
@@ -312,7 +315,12 @@ Slide.prototype.transition = function() {
   return TweenMax.fromTo(this, 3.0, {time:0.0}, {time:this.totalDuration, ease:Power0.easeInOut});
 };
 
-
+Slide.prototype.dispose = function(){
+ this.material.dispose()
+},
+Slide.prototype.reset = function(){
+  this.time = 0.0
+}
 function SlideGeometry(model) {
   THREE.BAS.ModelBufferGeometry.call(this, model);
 }

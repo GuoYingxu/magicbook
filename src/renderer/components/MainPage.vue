@@ -72,6 +72,7 @@ export default {
         }
         if(message == 'back'){
           if(this.timer) clearTimeout(this.timer)
+          this.index = 0
           this.currentPage = 'main'
         }
         // if(message == 'enter'){
@@ -192,8 +193,8 @@ export default {
 }
 .bottom-down{
   position: absolute;
-  top:10px;
-  right:10px;
+  bottom:10px;
+  left:60px;
   text-align: right;
   font-size: 50px;
   color:white
