@@ -1,3 +1,5 @@
+import { isLower } from "change-case";
+
 console.ward = function() {}; // what warnings?
 var sliders = []
 var index =0 
@@ -14,6 +16,7 @@ function setPre(){
   let l1 = new THREE.ImageLoader();
   l1.setCrossOrigin('Anonymous');
   l1.load(list[index], function(img) {
+    console.log('=====setPre',img)
     pre.setImage(img);
   })
 }
@@ -24,17 +27,22 @@ function listen(cb){
 function getIndex(){
   return index;
 }
-function init(_list) {
-  list = _list
-  root = new THREERoot({
-    createCameraControls: !true,
-    antialias: (window.devicePixelRatio === 1),
-    fov: 66
-  });
 
-  root.renderer.setClearColor(0x000000, 0);
-  root.renderer.setPixelRatio(window.devicePixelRatio || 1);
-  root.camera.position.set(0, 0, 65);
+function init(_list,__index) {
+  index = __index
+  list = _list
+  if(!root){
+
+    root = new THREERoot({
+      createCameraControls: !true,
+      antialias: (window.devicePixelRatio === 1),
+      fov: 66
+    });
+    
+  }
+    root.renderer.setClearColor(0x000000, 0);
+    root.renderer.setPixelRatio(window.devicePixelRatio || 1);
+    root.camera.position.set(0, 0, 65);
   setPre()
   root.scene.add(pre);
 }
@@ -51,7 +59,7 @@ function complete(){
   // root.scene.remove(next)
   if(listenhandler){
     listenhandler()
-  }
+  } 
 }
 function completel(){
   isTweenning = false
@@ -69,8 +77,12 @@ function completel(){
 }
 
 function left(){
-  if(index == 0 || isTweenning == true) {
-    return
+  console.log('------left')
+  if(isTweenning == true){
+    return null
+  }
+  if(index == 0 ) {
+    return index
   }
   isTweenning = true
   if(index >0){
@@ -90,13 +102,17 @@ function left(){
     root.scene.add(next);
     tl.add(pre.transition(),0)
     tl.add(next.transition(),0)
-    tl.resume()
+    tl.resume() 
+    console.log('left ====',index)
+    return index- 1
   } 
 }
 function right(){
-  
-  if(index == list.length-1 || isTweenning == true) {
-    return
+  if(isTweenning == true){
+    return null
+  }
+  if(index == list.length-1 ) {
+    return  index+1
   }
   isTweenning = true
   if(index +1 <= list.length-1){
@@ -116,7 +132,8 @@ function right(){
     root.scene.add(next);
     tl.add(pre.transition(),0)
     tl.add(next.transition(),0)
-    tl.resume()
+    tl.resume() 
+    return index +1
   }
 
 }
