@@ -35,11 +35,11 @@ function createWindow () {
    * Initial window options
    */
   mainWindow = new BrowserWindow({
-    height: 768,
+    height: 1080,
     useContentSize: true,
-    width: 2048,
-    maxHeight:768,
-    maxWidth:2048,
+    width: 1920,
+    maxHeight:1080,
+    maxWidth:1920,
     frame:false,
     webPreferences: {
       webSecurity: false,
@@ -57,20 +57,20 @@ function createWindow () {
     mainWindow = null
   })
   mainWindow.webContents.on('did-finish-load', () => {
-    const ret = globalShortcut.register('Left', () => {
-      // console.log('CommandOrControl+X is pressed')
-      mainWindow.webContents.send('key','right')
-    })
-    const right = globalShortcut.register('Right',()=>{
+    // const ret = globalShortcut.register('Left', () => {
+    //   // console.log('CommandOrControl+X is pressed')
+    //   mainWindow.webContents.send('key','right')
+    // })
+    // const right = globalShortcut.register('Right',()=>{
       
-      mainWindow.webContents.send('key','left')
-    })
-    // const back = globalShortcut.register('BackSpace',()=>{
+    //   mainWindow.webContents.send('key','left')
+    // })
+    // // const back = globalShortcut.register('BackSpace',()=>{
+    // //   mainWindow.webContents.send('key','back')
+    // // })
+    // const enter = globalShortcut.register('C',()=>{
     //   mainWindow.webContents.send('key','back')
     // })
-    const enter = globalShortcut.register('C',()=>{
-      mainWindow.webContents.send('key','back')
-    })
     // const exit = globalShortcut.register('Esc',()=>{
     //   app.quit()
     // })const exit = globalShortcut.register('Esc',()=>{
@@ -97,13 +97,15 @@ ipcMain.on('asynchronous-message', (event, arg) => {
         xml2js.parseString(data, {explicitArray : false}, function(err, json){ 
             console.log(json.data.node)
              _.map(json.data.node,item=>{
-               var p = {}
-               p.pic= require('path').join(baseUrl,item.$.pic) 
-              if(item.$.video){
-                p.video = require('path').join(baseUrl,item.$.video)
-                p.placement = item.$.placement
-              }
-              pics.push(p)
+               if(item){ 
+                 var p = {}
+                 p.pic= require('path').join(baseUrl,item.$.pic2) 
+                 p.name = item.$.textTitle
+                 p.content = item.$.content
+                 p.time = item.$.say
+                 p.guid =item.$.guid
+                 pics.push(p)
+                }
               return p
             }) 
             event.sender.send('asynchronous-reply', pics)

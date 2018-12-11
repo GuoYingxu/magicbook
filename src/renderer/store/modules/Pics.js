@@ -1,14 +1,11 @@
 import _ from 'lodash'
 const state = {
   pics:[],
-  originData:[]
 }
 
 const mutations = {
   GET_PICS (state,value) {
-    state.originData = value
-    state.pics = _.map(value,'pic')
-    console.log(value)
+    state.pics = value
   },
   INCREMENT_MAIN_COUNTER (state) {
     state.main++

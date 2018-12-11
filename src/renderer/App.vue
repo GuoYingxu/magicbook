@@ -21,7 +21,7 @@
   body{
     padding:0;
     margin:0;
-    CURSOR: none 
+    /* CURSOR: none  */
   }
   /* CSS */
 </style>
