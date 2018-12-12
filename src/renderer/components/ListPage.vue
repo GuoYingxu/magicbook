@@ -1,17 +1,21 @@
 <template>
   <div id ='test' class="full main">
-    <div class='man-list-content'>
-      <div class='list1'>
-        <template v-for = 'item in  list1' > 
-          <Man :item = "item" :key='item.guid'/>
-        </template>
-      </div>
-      <div class='list2'>
-        <template v-for = 'item in  list2' > 
-          <Man :item = "item" :key='item.guid'/>
-        </template>
-      </div>
-    </div>
+    <Carousel v-model ="index" >
+      <CarouselItem v-for="(num) in totalPage" :key="num">
+        <div class='man-list-content'>
+          <div class='list1'>
+            <template v-for = 'item in  getList1(num)' > 
+              <Man :item = "item" :key='item.guid'/>
+            </template>
+          </div>
+          <div class='list2'>
+            <template v-for = 'item in  getList2(num)' > 
+              <Man :item = "item" :key='item.guid'/>
+            </template>
+          </div>
+        </div>
+      </CarouselItem>
+    </Carousel>
   </div>
 </template>
 
@@ -97,7 +101,33 @@ export default {
      
   },
   methods:{
-    
+    getList1(page){
+      var start = (page-1)* 12;
+      var end = start + 6
+      if(end> this.list.length){
+        end = this.list.length
+      }
+      var res = []
+      for(var i = start  ;i<end; i++){
+        res.push(this.list[i])
+      }
+      return res
+    },
+     getList2(page){
+      var start = (page-1)* 12 + 6;
+      var end = start + 6
+      if(start > this.list.length){
+        return []
+      }
+      if(end> this.list.length){
+        end = this.list.length
+      }
+      var res = []
+      for(var i = start  ;i<end; i++){
+        res.push(this.list[i])
+      }
+      return res
+    }
     
   }
 }
