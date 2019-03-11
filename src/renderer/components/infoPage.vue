@@ -1,6 +1,6 @@
 <template>
   <div class='full infopage'>
-    <div class='wi1'>
+    <!-- <div class='wi1'>
       <div class= 'text-content1'>
         <img :src="item.pic" class='content-img'>
         <div>{{item && item.content}}</div>
@@ -19,10 +19,18 @@
        <div>{{item && item.content}}</div>
     </div>
     </div>
+     -->
+    <div class='img-l' v-for = '(pic,index) in pics' :key = 'index' v-show = "index==currentIndex" >
+      <img :src = "pic" width="100%" height="100%">
+    </div>
+    <div class='next-btn' @click="nextfunc" v-show= "currentIndex < pics.length-1">
+    </div>
+    <div class='pre-btn' @click="prefunc" v-show="currentIndex>0">
+    </div>
     <div class='return-btn' @click="returnfunc">
-      <img src="/static/return.png">
     </div>
   </div>
+  
 </template>
 <script>
 import { mapState } from 'vuex';
@@ -30,6 +38,7 @@ import _ from 'lodash'
 export default {
   data(){
     return {
+      currentIndex: 0,
       item:null
     }
   },
@@ -39,28 +48,42 @@ export default {
     if(item){
       this.item = item
     }
-    this.refs.page2.scrollTop(660)
   },
   watch:{
     $route(val){
-       var id = this.$route.params.guid
+      var id = this.$route.params.guid
       var item = _.find(this.list, t=> t.guid == id)
       if(item){
         this.item = item
       }
-    this.refs.page2.scrollTop =660
-
-      
+      console.log(this.item)
     }
   },
   computed:{
     ...mapState({
       list: state => state.Pics.pics
-    })
+    }),
+    pics(){
+      if(this.item){
+        return this.item.pics;
+      }else{
+        return []
+      }
+    }
   },
   methods:{
     returnfunc(){
       this.$router.go(-1)
+    },
+    prefunc(){
+      if(this.currentIndex>0){
+        this.currentIndex --
+      }
+    },
+    nextfunc(){
+      if(this.currentIndex< this.item.pics.length-1){
+        this.currentIndex ++
+      }
     }
   }
 
@@ -76,6 +99,39 @@ export default {
   position: absolute;
   right:43px;
   bottom:43px;
+  z-index:5;
+  background-image: url("~@/assets/return.png");
+  background-repeat: no-repeat;
+  width:147px;
+  height:52px;
+}
+.pre-btn{
+  z-index: 5;
+  position:absolute;
+  bottom: 43px;
+  right:403px;
+   background-image: url("~@/assets/pre.png");
+  background-repeat: no-repeat;
+  width:147px;
+  height:52px;
+}
+.next-btn{
+  position: absolute;
+  z-index:5;
+  right:223px;
+  bottom:43px;
+   background-image: url("~@/assets/next.png");
+  background-repeat: no-repeat;
+  width:147px;
+  height:52px;
+}
+.img-l{
+  position: absolute;
+  left:0;
+  top:0;
+  width: 1920px;
+  height:1080px;
+  z-index: 2
 }
 .wi1{
   width:550px;
@@ -84,6 +140,7 @@ export default {
   position: absolute;
   overflow: hidden;
   height: 660px;
+
 }
 .text-content1{
   width:530px;

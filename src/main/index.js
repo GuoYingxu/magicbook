@@ -1,4 +1,4 @@
-import { app, BrowserWindow ,ipcMain,globalShortcut} from 'electron'
+import { app, BrowserWindow ,ipcMain,globalShortcut ,dialog } from 'electron'
 import * as xml2js from 'xml2js'
 import * as _ from 'lodash'
 /**
@@ -9,21 +9,29 @@ if (process.env.NODE_ENV !== 'development') {
   global.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\')
 }
 
-let ppfp ="";
+// let ppfp ="";
 
-if(process.env.NODE_ENV !== 'development'){
-  let base  = app.getAppPath();
-  ppfp= process.arch=='x64'? require('path').join(base,'../../','/pepflashplayer64_30_0_0_113.dll'):require('path').join(baase,'../../','/pepflashplayer32_30_0_0_113.dll')
-}else{
+// if(process.env.NODE_ENV !== 'development'){
+//   let base  = app.getAppPath();
+//   ppfp= process.arch=='x64'? require('path').join(base,'../../','/pepflashplayer64_30_0_0_113.dll'):require('path').join(baase,'../../','/pepflashplayer32_30_0_0_113.dll')
+// }else{
 
-  ppfp= process.arch=='x64'? require('path').join(__static,'flash/pepflashplayer64_30_0_0_113.dll'):require('path').join(__static,'/flash/pepflashplayer32_30_0_0_113.dll')
-}
-//设定插件
-// console.log(app.getPath('pepperFlashSystemPlugin'))
-// console.log(ppfp)
-app.commandLine.appendSwitch('ppapi-flash-path',ppfp);
-//设定插件版本（不知道是否真有用，不匹配貌似也能运行）
-app.commandLine.appendSwitch('ppapi-flash-version', '30.0.0.113');
+//   ppfp= process.arch=='x64'? require('path').join(__static,'flash/pepflashplayer64_30_0_0_113.dll'):require('path').join(__static,'/flash/pepflashplayer32_30_0_0_113.dll')
+// }
+// //设定插件
+// // console.log(app.getPath('pepperFlashSystemPlugin'))
+// // console.log(ppfp)
+// app.commandLine.appendSwitch('ppapi-flash-path',ppfp);
+// //设定插件版本（不知道是否真有用，不匹配貌似也能运行）
+// app.commandLine.appendSwitch('ppapi-flash-version', '30.0.0.113');
+ 
+// const appName ='lichuli'
+// var trustManager = flashTrust.initSync(appName,"e:\\test")
+ 
+// trustManager.add(__static)
+// trustManager.add(resolve(app.getPath('desktop'),'config.xml'))
+// var list = trustManager.list()
+// console.log(list)
 
 let mainWindow
 const winURL = process.env.NODE_ENV === 'development'
@@ -51,12 +59,13 @@ function createWindow () {
     fullscreen:process.env.NODE_ENV!=='development'
   })
 
-  mainWindow.loadURL(winURL)
+  mainWindow.loadURL(winURL) 
 
   mainWindow.on('closed', () => {
     mainWindow = null
   })
   mainWindow.webContents.on('did-finish-load', () => {
+   
     // const ret = globalShortcut.register('Left', () => {
     //   // console.log('CommandOrControl+X is pressed')
     //   mainWindow.webContents.send('key','right')
@@ -89,26 +98,42 @@ if(process.env.NODE_ENV !=='development'){
 }else{
   baseUrl = app.getPath('desktop');
 }
-filePath = require('path').join(baseUrl,'/config.xml')
-
+filePath = require('path').join(baseUrl,'/config.xml') 
 
 ipcMain.on('asynchronous-message', (event, arg) => {
+  
         require('fs').readFile(filePath,function(err,data){
         xml2js.parseString(data, {explicitArray : false}, function(err, json){ 
-            console.log(json.data.node)
-             _.map(json.data.node,item=>{
-               if(item){ 
-                 var p = {}
-                 p.pic= require('path').join(baseUrl,item.$.pic2) 
-                 p.name = item.$.textTitle
-                 p.content = item.$.content
-                 p.time = item.$.say
-                 p.guid =item.$.guid
-                 pics.push(p)
-                }
-              return p
-            }) 
-            event.sender.send('asynchronous-reply', pics)
+        
+            //  _.map(json.data.node,item=>{
+            //   if(item){ 
+            //      var p = {}
+            //      p.pic= require('path').join(baseUrl,item.$.pic2) 
+            //      p.name = item.$.textTitle
+            //      p.py=pinyin(item.$.textTitle,{style:"firstLetter"}).join('')
+            //      p.content = item.$.content
+            //      p.time = item.$.say
+            //      p.guid =item.$.guid
+            //      p.pics = []
+                 
+            //     if(item.node){
+            //       if(item.node instanceof Array){
+
+            //         for(var i=0;i<item.node.length;i++){
+            //           console.log(item.node[i])
+            //           p.pics.push(require('path').join(baseUrl,item.node[i].$.pic));
+            //         }
+            //       }else{
+            //         console.log(item.node)
+            //         p.pics.push(require('path').join(baseUrl,item.node.$.pic))
+            //       }
+            //     }
+            //     pics.push(p);
+            //   }
+              
+            //   return p
+            // }) 
+            event.sender.send('asynchronous-reply', {data:json.data.node,base:baseUrl})
           })
         })
 })

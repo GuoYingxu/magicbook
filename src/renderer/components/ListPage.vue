@@ -1,21 +1,39 @@
 <template>
   <div id ='test' class="full main">
-    <Carousel v-model ="index" >
-      <CarouselItem v-for="(num) in totalPage" :key="num">
-        <div class='man-list-content'>
-          <div class='list1'>
-            <template v-for = 'item in  getList1(num)' > 
-              <Man :item = "item" :key='item.guid'/>
-            </template>
-          </div>
-          <div class='list2'>
-            <template v-for = 'item in  getList2(num)' > 
-              <Man :item = "item" :key='item.guid'/>
-            </template>
-          </div>
+     <div class='man-list-content'>
+      <Carousel v-model="index"  style="height:1080px">
+        <CarouselItem v-for='num in totalPage' :key='num'>
+            <div class='list1'>
+              <template v-for = 'item in  getList1(num)' > 
+                <Man :item = "item" :key='item.guid'/>
+              </template>
+            </div>
+            <div class='list2'>
+              <template v-for = 'item in  getList2(num)' > 
+                <Man :item = "item" :key='item.guid'/>
+              </template>
+            </div>
+        </CarouselItem>
+      </Carousel>
+      </div> 
+      <div class='search'>
+        <Input type='text'  class="search-input" @on-focus="showk" v-model="inputText" @on-change="search"/>
+        <div class="search-btn" @click="search">
         </div>
-      </CarouselItem>
-    </Carousel>
+      </div>
+      <div class='keyboardcontainer' v-show = "showkeyboard">
+        <div class="closekeyboard" @click="showkeyboard=false">x</div>
+        <Keyboard
+          v-model="inputText"
+          @custom="custom"
+          @input="changed"
+          :layouts="[
+            '1234567890{delete:backspace}|qwertyuiop|asdfghjkl|{shift:goto:1}zxcvbnm|{space:space}{custom:custom}',
+            '!@#$%^&*(){delete:backspace}|QWERTYUIOP|ASDFGHJKL|{shift:goto:0}ZXCVBNM|{space:space}{custom:custom}'
+          ]"
+          :maxlength="16"
+        ></keyboard>
+      </div>
   </div>
 </template>
 
@@ -23,118 +41,178 @@
 import {mapState} from 'vuex'
 import _ from 'lodash'
 import { setTimeout, clearTimeout } from 'timers';
+
+import Keyboard from './Keyboard';
 import Man from './Man'
 export default {
   data(){
     return {
-      currentPage:'main', 
-      placement:'left',
+      currentPage:'main',  
       showVideo:false,
       index:0,
-      timer:null
+      timer:null,
+      inputText:"",
+      filterString:'',
+      showkeyboard:false,
     }
   },
   computed:{
     ...mapState({
       list:state=> state.Pics.pics,
     }) ,
-    totalPage(){
-      return parseInt(this.list.length/12) + (this.list.length %12 == 0 ? 0: 1)
-    },
-    currentList(){
-      var start = this.index * 12 
-      var end = (this.index + 1) *12 
-      if(end> this.list.length){
-        end = this.list.length
-      }
+    filterList(){
       var res = []
-      for(var i = start; i< end; i++){
-        res.push(this.list[i])
+      if(this.filterString.length>0){
+        res = this.list.filter(item=> item.py.indexOf(this.filterString)>=0)
+      }else{
+        res= this.list;
       }
       return res
     },
-    list1(){
-      if(this.currentList.length>=6){
-        return [
-          this.currentList[0],
-          this.currentList[1],
-          this.currentList[2],
-          this.currentList[3],
-          this.currentList[4],
-          this.currentList[5]
-        ]
-      }else{
-        return this.currentList
-      }
+    totalPage(){
+      return parseInt(this.list.length/12) + (this.list.length %12 == 0 ? 0: 1)
     },
-    list2(){
-      if(this.currentList.length <=6){
-        return []
-      }else{
-        var res = []
-        for(var i = 6;i<this.currentList.length; i++){
-          res.push(this.currentList[i])
-        }
-        return res
-      }
-    }
+  
   },
   components:{
-    Man
+    Man,
+    Keyboard
   },
   mounted(){
+    this.index = 0
+    var hammerTest = new Hammer(document.getElementById('test'));
+    hammerTest.on('swipeleft swiperight ', (ev)=> {
+        console.log(ev.type);
+        if(ev.type=='swiperight'){
+          if(this.index>0){
+            this.index = this.index-1
+
+          }else{
+            this.index =0
+          }
+          console.log(this.index)
+        }
+        if(ev.type=='swipeleft'){
+          console.log(this.index,this.totalPage)
+          if(this.index<this.totalPage -1){
+            this.index = this.index+1
+          }else{
+            this.index = this.totalPage -1
+          }
+          console.log(this.index)
+          
+        }
+    });
+
+
+    // var hammertime = new Hammer(document.getElementById('test'));
+    // hammertime.on('swipleft', function(ev) {
+    //     if(this.index>0){
+    //       this.index --
+    //     }
+    // });
+    // hammertime.on('swipright',function(ev){
+    //   if(this.index< this.totalPage-1){
+    //     this.index++
+    //   }
+    // })
   },
   watch:{
-    currentList(val){
-      if(val == 'book'){
-        //this.index=0
-         
-      }
-    },
-    // list(val){
-    //   if(val.length> 0){
-    //     this.setUrl(this.originData[threeUtil.getIndex()].video)
-    //   }
-    // }
+     
   },
   created(){
      
   },
-  methods:{
+  methods:{ 
+    showk(){
+      if(this.showkeyboard==false){
+        this.showkeyboard =true
+      }
+    },
+   changed(value) {
+     this.filterString = value.trim()
+      console.log('Value ' + value);
+    },
+
+    custom(keyboard) {
+      console.log(keyboard.value);
+    },
+
+    search(){
+      this.filterString = this.inputText.trim();
+    },
     getList1(page){
-      var start = (page-1)* 12;
+      var start = (page-1)*12
       var end = start + 6
-      if(end> this.list.length){
-        end = this.list.length
+      if(start> this.filterList.length){
+        return []
+      }
+      if(end > this.filterList.length){
+        end =this.filterList.length 
       }
       var res = []
-      for(var i = start  ;i<end; i++){
-        res.push(this.list[i])
+      for(var i = start; i<end; i++){
+        res.push(this.filterList[i])
       }
       return res
     },
-     getList2(page){
-      var start = (page-1)* 12 + 6;
-      var end = start + 6
-      if(start > this.list.length){
+    getList2(page){
+      var start = (page-1)*12 +6
+      var end = start + 6;
+      if(start > this.filterList.length){
         return []
       }
-      if(end> this.list.length){
-        end = this.list.length
+      if(end> this.filterList.length){
+        end = this.filterList.length
       }
       var res = []
-      for(var i = start  ;i<end; i++){
-        res.push(this.list[i])
+      for(var i =start; i<end;i++){
+        res.push(this.filterList[i])
       }
-      return res
+      return res 
     }
-    
   }
 }
 </script>
 
 <style>
+/* @import './keyboard.css'; */
+.search{
+  position: absolute;
+  bottom:75px;
+  left:761px;
+  height:54px;
+}
+.search-input .ivu-input{
+  line-height: 50px;
+  height:50px;
+  border-radius:5px;
+  border:1px solid #ff0;
+  width: 314px;
+  font-size:35px;
+  border:none;
+  float:left;
+}
+.closekeyboard{
+  position: absolute;
+  right:10px;
+  top:-3px;
+  font-size: 30px
+}
+.keyboardcontainer{
+  position: absolute;
+  z-index: 10;
+  bottom: 135px;
+  width: 600px; 
+  left:660px;
 
+}
+.search-btn{
+  height:54px;
+  background: rgba(0,0,0,0);
+  width: 100px;
+  float:left;
+}
  
 .main{
   background-image: url("~@/assets/mp.jpg");
@@ -142,9 +220,9 @@ export default {
   background-size:100% 100%
 }
 .man-list-content{
-  position: absolute;
-  left:175px;
-  top: 192px;
+  padding-left:175px;
+  padding-top: 192px;
+  z-index: 1;
 }
 .list1 ,.list2{
   display:  flex;
@@ -159,6 +237,7 @@ export default {
   bottom:0;
   top:0;
   overflow: hidden;
+  z-index: 0;
 }
 .left-vi{
   position: absolute;

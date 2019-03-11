@@ -4,10 +4,9 @@ import axios from 'axios'
 import App from './App'
 import router from './router'
 import store from './store'
-import iView from 'iview';
-import 'iview/dist/styles/iview.css';
-
-Vue.use(iView);
+import iView from 'iview'
+import 'iview/dist/styles/iview.css'
+Vue.use(iView)
 if (!process.env.IS_WEB) Vue.use(require('vue-electron'))
 Vue.http = Vue.prototype.$http = axios
 Vue.config.productionTip = false
@@ -20,3 +19,8 @@ new Vue({
   store,
   template: '<App/>'
 }).$mount('#app')
+
+ 
+
+  require('electron').webFrame.setLayoutZoomLevelLimits(1,1)
+  require('electron').webFrame.setVisualZoomLevelLimits(1,1)

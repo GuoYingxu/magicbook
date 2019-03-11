@@ -12,6 +12,9 @@
 <script>
 export default {
   props:['item'],
+  mounted(){
+    console.log(this.item.name)
+  },
   methods:{
     handleClick(){
       this.$router.push('/item/'+this.item.guid)
@@ -34,6 +37,7 @@ export default {
   height: 229px;
   background: #fff;
   margin-left:10px;
+  margin-right:10px;
   position: relative;
 }
 .man-img img{
@@ -50,6 +54,8 @@ export default {
   margin-top:10px;
   position: relative;
   text-align: center;
+  display: flex;
+  flex-direction: column;
 }
 .man-name{
   text-align: center; 
@@ -59,7 +65,7 @@ export default {
 }
 .man-time{
   text-align: center;
-  font-size:18px;
+  font-size:16px;
 }
 </style>
 
