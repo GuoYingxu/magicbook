@@ -10,10 +10,14 @@
       <div class='m4' :style='m4' data-name='李初梨与革命文学' @click='currentMenu="wx"'></div>
       <div class='menureturn' :style='returnStyle' @click='currentMenu="top"'></div>
     </div>
-    <div class='mainMenu' v-show='currentMenu=="jc"'>
-      <div class='mm1' :style='mm1' data-name='翰墨清雅' data-type='list' @click="menuClick"></div>
-      <div class='mm2' :style='mm2' data-name='陶风瓷韵' data-type='list'  @click="menuClick"></div>
-      <div class='mm3' :style='mm3' data-name='炉火纯青' data-type='list'  @click="menuClick"></div>
+    <div class='mainMenu2' v-show='currentMenu=="jc"'>
+      <div class='mm1' :style='mm1' data-name='瓷器类' data-type='list' @click="menuClick"></div>
+      <div class='mm2' :style='mm2' data-name='铜器类' data-type='list'  @click="menuClick"></div>
+      <div class='mm3' :style='mm3' data-name='绘画类' data-type='list'  @click="menuClick"></div>
+       <div class='mm4' :style='mm4' data-name='书法类' data-type='list'  @click="menuClick"></div>
+        <div class='mm5' :style='mm5' data-name='文具类' data-type='list'  @click="menuClick"></div>
+         <div class='mm6' :style='mm6' data-name='文献文书' data-type='list'  @click="menuClick"></div>
+          <div class='mm7' :style='mm7' data-name='其它金属器' data-type='list'  @click="menuClick"></div>
       <div class='menureturn' :style='returnStyle' @click='currentMenu="mainmenu"'></div>
     </div>
      <div class='mainMenu' v-show='currentMenu=="jy"'>
@@ -199,30 +203,67 @@ export default {
     mm1(){
       return {
         position:'absolute',
-        left : util.w(600)+'px',
-        top:util.h(285)+'px',
-        width: util.w(644)+'px',
-        height: util.h(118)+'px'
+        left : util.w(480)+'px',
+        top:util.h(400)+'px',
+        width: util.w(251)+'px',
+        height: util.h(90)+'px'
       }
     },
      mm2(){
       return {
         position:'absolute',
-        left : util.w(600)+'px',
-        top:util.h(415)+'px',
-        width: util.w(644)+'px',
-        height: util.h(118)+'px'
+        left : util.w(740)+'px',
+        top:util.h(400)+'px',
+        width: util.w(251)+'px',
+        height: util.h(90)+'px'
       }
     },
      mm3(){
       return {
         position:'absolute',
-        left : util.w(600)+'px',
-        top:util.h(545)+'px',
-        width: util.w(644)+'px',
-        height: util.h(118)+'px'
+        left : util.w(1000)+'px',
+        top:util.h(400)+'px',
+        width: util.w(251)+'px',
+        height: util.h(90)+'px'
       }
     },
+     mm4(){
+      return {
+        position:'absolute',
+        left : util.w(1260)+'px',
+        top:util.h(400)+'px',
+        width: util.w(251)+'px',
+        height: util.h(90)+'px'
+      }
+    },
+     mm5(){
+      return {
+        position:'absolute',
+        left : util.w(480)+'px',
+        top:util.h(550)+'px',
+        width: util.w(251)+'px',
+        height: util.h(90)+'px'
+      }
+    },
+     mm6(){
+      return {
+        position:'absolute',
+        left : util.w(740)+'px',
+        top:util.h(550)+'px',
+        width: util.w(251)+'px',
+        height: util.h(90)+'px'
+      }
+    },
+     mm7(){
+      return {
+        position:'absolute',
+        left : util.w(1000)+'px',
+        top:util.h(550)+'px',
+        width: util.w(251)+'px',
+        height: util.h(90)+'px'
+      }
+    },
+
     m1(){
       return {
         position:'absolute',
@@ -382,6 +423,26 @@ export default {
     background-size: 100% 100%;
     background-repeat: no-repeat;
   }
+   .mm4{
+     background-image: url('~@/assets/menus/m1/04.png');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+  }
+   .mm5{
+     background-image: url('~@/assets/menus/m1/05.png');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+  }
+   .mm6{
+     background-image: url('~@/assets/menus/m1/06.png');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+  }
+   .mm7{
+     background-image: url('~@/assets/menus/m1/07.png');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+  }
   .m1{
      background-image: url('~@/assets/menus/01.png');
     background-size: 100% 100%;
@@ -404,6 +465,16 @@ export default {
   }
   .mainMenu{
     background-image: url('~@/assets/m2.jpg');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    position: absolute;
+    left:0;
+    right:0;
+    top:0;
+    bottom: 0
+  }
+  .mainMenu2{
+    background-image: url('~@/assets/01-1.jpg');
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: absolute;
