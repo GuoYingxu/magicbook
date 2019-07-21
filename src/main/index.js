@@ -35,13 +35,13 @@ function createWindow () {
    * Initial window options
    */
   mainWindow = new BrowserWindow({
-    height: 1080, 
+    height: 1200, 
     width: 1920, 
     frame:false,
     // fullscreen:true, 
     x:0,
     y:0,
-   fullscreen:process.env.NODE_ENV!=='development'
+   //fullscreen:process.env.NODE_ENV!=='development'
   })
 
   mainWindow.loadURL(winURL)
