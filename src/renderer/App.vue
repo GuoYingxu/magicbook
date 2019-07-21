@@ -8,7 +8,7 @@
   export default {
     name: 'magicbook',
     mounted(){
-      this.$store.dispatch('getList')
+    //  this.$store.dispatch('getList')
     }
   }
 </script>
