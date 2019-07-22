@@ -2,26 +2,26 @@
   <div class="full main"> 
       <div  class='back' :style = 'backstyle' @click='enterhandler'></div>
       <div class="s1" :style="s1style">
-          <video  style="position:relative" autoplay loop :width="(wp*763)+'px'" :height="(hp*385)+'px'"  id="myVideo1"  >
-			<source src="/static/v/f01.mp4" type="video/mp4"/>
+          <video v-if="url1"  style="position:relative" autoplay loop :width="(wp*763)+'px'" :height="(hp*385)+'px'"  id="myVideo1"  >
+			<source :src="url1" type="video/mp4"/>
          </video>
       </div>
 
       <div class="s1" :style="s2style">
-          <video   style="position:relative" autoplay loop :width="(wp*763)+'px'" :height="(hp*385)+'px'"  id="myVideo2"  >
-			<source src="/static/v/f02.mp4" type="video/mp4"/>
+          <video v-if="url2"   style="position:relative" autoplay loop :width="(wp*763)+'px'" :height="(hp*385)+'px'"  id="myVideo2"  >
+			<source :src="url2" type="video/mp4"/>
          </video>
       </div>
 
       <div class="s1" :style="s3style">
-          <video  style="position:relative" autoplay loop :width="(wp*763)+'px'" :height="(hp*385)+'px'"  id="myVideo3"  >
-			<source src="/static/v/f03.mp4" type="video/mp4"/>
+          <video v-if='url3'  style="position:relative" autoplay loop :width="(wp*763)+'px'" :height="(hp*385)+'px'"  id="myVideo3"  >
+			<source :src="url3" type="video/mp4"/>
          </video>
       </div>
 
       <div class="s1" :style="s4style">
-          <video  style="position:relative" autoplay loop :width="(wp*763)+'px'" :height="(hp*385)+'px'"  id="myVideo4"  >
-			<source src="/static/v/f04.mp4" type="video/mp4"/>
+          <video v-if='url4'  style="position:relative" autoplay loop :width="(wp*763)+'px'" :height="(hp*385)+'px'"  id="myVideo4"  >
+			<source :src="url4" type="video/mp4"/>
          </video>
       </div>
     <!-- <div class="b1" :style="style1" @click="b"></div>
@@ -41,6 +41,7 @@ import { setTimeout, clearTimeout } from 'timers';
 export default {
   data(){
     return {
+      dir:'',
      webvisible:false ,
      name:'anc',
      url:"http://www.esgcc.com.cn",
@@ -48,6 +49,10 @@ export default {
      hp:"",
      wp:"",
      backstyle:"",
+     url1:"",
+     url2:"",
+     url3:"",
+     url4:"",
     s1style:"",
     s2style:"",
     s3style:"",
@@ -80,6 +85,16 @@ export default {
     //    this.style4=`width: ${wp*225}px; height:${hp*220}px; left:${wp*986}px; top:${hp*582}px;`
     //     this.style5=`position:absolute;left:0;top:0;z-index:500;  width:${wp*1920}px; height:${hp*1080}px`
     //     this.style6=    `position:absolute;right:${wp*30}px;top:${hp*1010}px;z-index:600`
+      require('electron').ipcRenderer.send('getdir');
+      require('electron').ipcRenderer.on('dir', (event, message) => {
+        console.log(message)
+        this.dir = message
+        this.url1 = this.dir+'/v/f01.mp4'
+        this.url2 = this.dir+'/v/f02.mp4'
+        this.url3 = this.dir+'/v/f03.mp4'
+        this.url4 = this.dir+'/v/f04.mp4'
+        console.log(this.url1)
+      })
   },
   methods:{
     enterhandler:function(){

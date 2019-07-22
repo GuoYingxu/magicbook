@@ -41,7 +41,10 @@ function createWindow () {
     // fullscreen:true, 
     x:0,
     y:0,
-   //fullscreen:process.env.NODE_ENV!=='development'
+   fullscreen:process.env.NODE_ENV!=='development',
+   webPreferences: {
+    webSecurity: false
+  }
   })
 
   mainWindow.loadURL(winURL)
@@ -83,8 +86,14 @@ var filePath ;
 //   baseUrl = app.getPath('desktop');
 // }
 // filePath = require('path').join(baseUrl,'/config.xml')
-
-
+if(process.env.NODE_ENV !=='development'){
+     baseUrl = require('path').join(app.getPath('exe'),'../');
+}else{
+  baseUrl = require('path').join(app.getPath('exe'),'../../../../static');
+}
+ipcMain.on('getdir',(event,arg)=>{
+  event.sender.send('dir', baseUrl)
+})
 // ipcMain.on('asynchronous-message', (event, arg) => {
 //         require('fs').readFile(filePath,function(err,data){
 //         xml2js.parseString(data, {explicitArray : false}, function(err, json){ 

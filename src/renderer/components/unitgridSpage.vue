@@ -2,20 +2,20 @@
   <div class="full main"> 
       <div  class='back' :style = 'backstyle' @click='enterhandler'></div>
       <div class="s1" :style="s1style">
-          <video  style="position:relative" autoplay loop :width="(wp*763)+'px'" :height="(hp*783)+'px'"  id="myVideo1"  >
-			<source src="/static/v/s01.mp4" type="video/mp4"/>
+          <video v-if="url1"  style="position:relative" autoplay loop :width="(wp*763)+'px'" :height="(hp*783)+'px'"  id="myVideo1"  >
+			<source :src="url1" type="video/mp4"/>
          </video>
       </div>
 
       <div class="s1" :style="s2style">
-          <video   style="position:relative" autoplay loop :width="(wp*763)+'px'" :height="(hp*385)+'px'"  id="myVideo2"  >
-			<source src="/static/v/s02.mp4" type="video/mp4"/>
+          <video v-if="url2"  style="position:relative" autoplay loop :width="(wp*763)+'px'" :height="(hp*385)+'px'"  id="myVideo2"  >
+			<source :src="url2" type="video/mp4"/>
          </video>
       </div>
 
       <div class="s1" :style="s3style">
-          <video  style="position:relative" autoplay loop :width="(wp*763)+'px'" :height="(hp*385)+'px'"  id="myVideo3"  >
-			<source src="/static/v/s03.mp4" type="video/mp4"/>
+          <video v-if="url3"  style="position:relative" autoplay loop :width="(wp*763)+'px'" :height="(hp*385)+'px'"  id="myVideo3"  >
+			<source :src="url3" type="video/mp4"/>
          </video>
       </div> 
     <!-- <div class="b1" :style="style1" @click="b"></div>
@@ -50,7 +50,11 @@ export default {
      style3:"",
      style4:"",
      style5:"position:absolute;left:0;top:0;z-index:500;  width:1920px; height:1080px",
-     style6:"position:absolute;right:30px;top:1010px;z-index:600"
+     style6:"position:absolute;right:30px;top:1010px;z-index:600",
+     dir:'',
+     url1:"",
+     url2:"",
+     url3:"",
     }
   },
   computed:{ 
@@ -73,6 +77,15 @@ export default {
     //    this.style4=`width: ${wp*225}px; height:${hp*220}px; left:${wp*986}px; top:${hp*582}px;`
     //     this.style5=`position:absolute;left:0;top:0;z-index:500;  width:${wp*1920}px; height:${hp*1080}px`
     //     this.style6=    `position:absolute;right:${wp*30}px;top:${hp*1010}px;z-index:600`
+      require('electron').ipcRenderer.send('getdir');
+      require('electron').ipcRenderer.on('dir', (event, message) => {
+        console.log(message)
+        this.dir = message
+        this.url1 = this.dir+'/v/s01.mp4'
+        this.url2 = this.dir+'/v/s02.mp4'
+        this.url3 = this.dir+'/v/s03.mp4' 
+        console.log(this.url1)
+      })
   },
   methods:{
     enterhandler:function(){
@@ -123,7 +136,7 @@ video {
   background-size: 100% 100%
 }
 .main{
-  background-image: url("~@/assets/fp.jpg");
+  background-image: url("~@/assets/sp.jpg");
   background-repeat: no-repeat;
   background-size:100% 100%
 }
