@@ -48,7 +48,7 @@ export default {
   top:2px;
 }
 .man-title{
-  border:1px solid #000;
+  border:1px solid rgba(0,0,0,0.2);
   background: #F9B747;
   height:100px;
   margin-top:10px;

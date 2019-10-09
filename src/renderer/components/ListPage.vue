@@ -58,7 +58,7 @@ export default {
   },
   computed:{
     ...mapState({
-      list:state=> state.Pics.pics,
+      list:state=> state.Pics.json,
     }) ,
     filterList(){
       var res = []

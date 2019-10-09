@@ -11,7 +11,7 @@ const state = {
 
 const mutations = {
   GET_PICS (state,value) {
-    state.json = value.data
+    state.json = value.data 
     state.baseUrl = value.base
   },
   INCREMENT_MAIN_COUNTER (state) {
