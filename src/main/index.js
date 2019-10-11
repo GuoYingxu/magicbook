@@ -51,8 +51,11 @@ function createWindow () {
     maxWidth:1920,
     frame:false,
     webPreferences: {
-      webSecurity: false,
-      plugins: true
+      nodeIntegration: true,
+    webSecurity:false,
+
+    plugins:true,
+    webviewTag:true
     },
     resizable :false,
     x:0,
