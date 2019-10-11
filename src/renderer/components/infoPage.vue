@@ -1,6 +1,6 @@
 <template>
   <div class='full infopage'>
-    <div class='wi1'>
+    <!-- <div class='wi1'>
       <div class= 'text-content1'>
         <img :src="item.pic" class='content-img'>
         <div>{{item && item.content}}</div>
@@ -18,16 +18,16 @@
       <img :src="item.pic" class='content-img'>
        <div>{{item && item.content}}</div>
     </div>
-    </div>
+    </div> -->
     
     <div class='img-l' v-for = '(pic,index) in pics' :key = 'index' v-show = "index==currentIndex" >
       <img :src = "pic" width="100%" height="100%">
     </div>
-    <div class='next-btn' @click="nextfunc" v-show= "currentIndex < pics.length-1">
+    <div class='next-btn' @mousedown="nextDown" @mouseup="nextup" @mouseleave="nextleave"  v-show= "currentIndex < pics.length-1">
     </div>
-    <div class='pre-btn' @click="prefunc" v-show="currentIndex>0">
+    <div class='pre-btn' @mousedown="preDown" @mouseup="preup" @mouseleave="preleave"  v-show="currentIndex>0">
     </div>
-    <div class='return-btn' @click="returnfunc">
+    <div class='return-btn' @mousedown="returnDown" @mouseup="returnup" @mouseleave="returnleave" >
     </div>
   </div>
   
@@ -39,6 +39,9 @@ export default {
   data(){
     return {
       currentIndex: 0,
+      isNextPressDown:false,
+      isPrePressDown:false,
+      isReturnPressDown:false,
       item:null
     }
   },
@@ -47,6 +50,7 @@ export default {
     var item = _.find(this.list, t=> t.guid == id)
     if(item){
       this.item = item
+      console.log(item)
     }
   },
   watch:{
@@ -61,7 +65,7 @@ export default {
   },
   computed:{
     ...mapState({
-      list: state => state.Pics.pics
+      list: state => state.Pics.json
     }),
     pics(){
       if(this.item){
@@ -72,6 +76,44 @@ export default {
     }
   },
   methods:{
+    returnDown(){
+      this.isReturnPressDown=true;
+    },
+    returnup(){
+      if(this.isReturnPressDown){
+
+        this.returnfunc()
+      } 
+      this.isReturnPressDown =false
+    },
+    returnleave(){
+      this.isReturnPressDown = false
+    },
+    nextDown(){
+      this.isNextPressDown = true
+    },
+    nextup(){
+      if(this.isNextPressDown === true){
+        this.nextfunc()
+      }
+      this.isNextPressDown = false
+    },
+    nextleave(){
+      this.isNextPressDown = false
+    },
+
+    preDown(){
+      this.isPrePressDown = true
+    },
+    preup(){
+      if(this.isPrePressDown === true){
+        this.prefunc()
+      }
+      this.isPrePressDown = false
+    },
+    preleave(){
+      this.isPrePressDown = false
+    }, 
     returnfunc(){
       this.$router.go(-1)
     },
@@ -100,7 +142,17 @@ export default {
   right:43px;
   bottom:43px;
   z-index:5;
-  background-image: url("~@/assets/return.png");
+  background-image: url("~@/assets/professor/return.png");
+  background-repeat: no-repeat;
+  width:147px;
+  height:52px;
+}
+.return-btn-active{
+  position: absolute;
+  right:43px;
+  bottom:43px;
+  z-index:5;
+  background-image: url("~@/assets/professor/return_1.png");
   background-repeat: no-repeat;
   width:147px;
   height:52px;
@@ -110,7 +162,17 @@ export default {
   position:absolute;
   bottom: 43px;
   right:403px;
-   background-image: url("~@/assets/pre.png");
+  background-image: url("~@/assets/professor/pre.png");
+  background-repeat: no-repeat;
+  width:147px;
+  height:52px;
+}
+.pre-btn-active{
+  z-index: 5;
+  position:absolute;
+  bottom: 43px;
+  right:403px;
+  background-image: url("~@/assets/professor/pre_1.png");
   background-repeat: no-repeat;
   width:147px;
   height:52px;
@@ -120,7 +182,17 @@ export default {
   z-index:5;
   right:223px;
   bottom:43px;
-   background-image: url("~@/assets/next.png");
+   background-image: url("~@/assets/professor/next.png");
+  background-repeat: no-repeat;
+  width:147px;
+  height:52px;
+}
+.next-btn-active{
+  position: absolute;
+  z-index:5;
+  right:223px;
+  bottom:43px;
+   background-image: url("~@/assets/professor/next_1.png");
   background-repeat: no-repeat;
   width:147px;
   height:52px;
