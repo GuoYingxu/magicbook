@@ -1,6 +1,6 @@
 <template>
   <div class='full infopage'>
-    <!-- <div class='wi1'>
+    <div class='wi1'>
       <div class= 'text-content1'>
         <img :src="item.pic" class='content-img'>
         <div>{{item && item.content}}</div>
@@ -19,7 +19,7 @@
        <div>{{item && item.content}}</div>
     </div>
     </div>
-     -->
+    
     <div class='img-l' v-for = '(pic,index) in pics' :key = 'index' v-show = "index==currentIndex" >
       <img :src = "pic" width="100%" height="100%">
     </div>
