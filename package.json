@@ -60,7 +60,7 @@
     }
   },
   "dependencies": {
-    "axios": "^0.18.0", 
+    "axios": "^0.18.0",
     "iview": "^3.1.5",
     "lodash": "^4.17.10",
     "node-pinyin": "^0.2.3",
@@ -71,7 +71,6 @@
     "xml2js": "^0.4.19"
   },
   "devDependencies": {
-    "electron": "^6.0.12",
     "ajv": "^6.5.0",
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.4",
@@ -87,6 +86,7 @@
     "css-loader": "^0.28.11",
     "del": "^3.0.0",
     "devtron": "^1.4.0",
+    "electron": "^6.1.7",
     "electron-builder": "^20.19.2",
     "electron-debug": "^1.5.0",
     "electron-devtools-installer": "^2.2.4",

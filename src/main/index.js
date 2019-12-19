@@ -44,11 +44,11 @@ function createWindow () {
    * Initial window options
    */
   mainWindow = new BrowserWindow({
-    height: 1080,
+    height: 1920,
     useContentSize: true,
-    width: 1920,
-    maxHeight:1080,
-    maxWidth:1920,
+    width: 1080,
+    maxHeight:1920,
+    maxWidth:1080,
     frame:false,
     webPreferences: {
       nodeIntegration: true,
@@ -97,11 +97,12 @@ var baseUrl ;
 var pics = [];
 var filePath ;
 
-if(process.env.NODE_ENV !=='development'){
+// if(process.env.NODE_ENV !=='development'){
   baseUrl = require('path').join(app.getAppPath(),'../../');
-}else{
-  baseUrl = app.getPath('desktop');
-}
+// }else{
+//   baseUrl = app.getPath('desktop');
+// }
+console.log(baseUrl)
 filePath = require('path').join(baseUrl,'/config.xml') 
 
 ipcMain.on('asynchronous-message', (event, arg) => {
@@ -111,8 +112,9 @@ ipcMain.on('asynchronous-message', (event, arg) => {
           console.log(json)
              _.map(json.data.node,item=>{
               if(item){ 
+                console.log(item)
                  var p = {}
-                 p.pic= 'file://'+require('path').join(baseUrl,item.$.pic2) 
+                 p.pic= 'file://'+require('path').join(baseUrl,item.$.pic) 
                  p.name = item.$.textTitle
                  p.py=pinyin(item.$.textTitle,{style:"firstLetter"}).join('')
                  p.content = item.$.content

@@ -1,6 +1,6 @@
 
-const WINDOW_WIDTH = 1920;
-const WINDOW_HEIGHT = 1080
+const WINDOW_WIDTH = 1080;
+const WINDOW_HEIGHT = 1920
 function findNodeList(nodeName,list){
   for(var i = 0;i<list.length;i++){
     let node = list[i];
@@ -39,16 +39,18 @@ function findNode(nodeName,list){
   }
   return  null
 }
-function w(num,win_w){
+export function w(num,win_w){
   let __W =  win_w ? win_w : window.innerWidth
+  console.log(__W, WINDOW_WIDTH)
   if(typeof num == 'number'){ 
     return num* __W/WINDOW_WIDTH
   }else{
     return 0
   }
 }
-function h(num,win_h){
+export function h(num,win_h){
   let __h =win_h ?win_h: window.innerHeight
+  console.log(__h,WINDOW_HEIGHT)
   if(typeof num == 'number'){
     return num* __h/WINDOW_HEIGHT
   }else{

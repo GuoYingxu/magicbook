@@ -10,8 +10,14 @@ export default new Router({
       name: 'landing-page',
       // component: require('@/components/LandingPage').default
       // component:require('@/components/MainPage').default
-      component:require('@/components/ListPage').default
+      // component:require('@/components/ListPage').default
+      component:require('@/components/xueji').default
       // component:require('@/components/Lichuli').default
+    },
+    {
+      path:'/schoollist',
+      name:'schoollist',
+      component:require('@/components/schoollist').default
     },
     {
       path:'/item/:id',
