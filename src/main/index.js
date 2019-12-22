@@ -94,7 +94,9 @@ function createWindow () {
 }
 
 var baseUrl ;
-var pics = [];
+var pics1 = [];
+var pics2 = [];
+var video = '';
 var filePath ;
 
 // if(process.env.NODE_ENV !=='development'){
@@ -105,40 +107,54 @@ var filePath ;
 console.log(baseUrl)
 filePath = require('path').join(baseUrl,'/config.xml') 
 
+function mapxj(nodes,school){
+  if(nodes && nodes.length> 0){
+    return _.map( nodes, item => { 
+          var p = {}
+          p.pic= 'file://'+require('path').join(baseUrl,item.$.pic) 
+          p.name = item.$.textTitle
+          p.py=pinyin(item.$.textTitle,{style:"firstLetter"}).join('')
+          p.content = item.$.content 
+          p.guid =item.$.guid
+          p.pics = []
+          p.school = school
+          
+          if(item.node){
+            if(item.node instanceof Array){ 
+              for(var i=0;i<item.node.length;i++){ 
+                p.pics.push('file://'+require('path').join(baseUrl,item.node[i].$.pic));
+              }
+            }else{ 
+              p.pics.push('file://'+require('path').join(baseUrl,item.node.$.pic))
+            }
+          }
+        return p
+    })
+  }else {
+    return []
+  }
+}
+
 ipcMain.on('asynchronous-message', (event, arg) => {
-  
+    pics1 = []
+    pics2 = []
+    video = ''
         require('fs').readFile(filePath,function(err,data){
         xml2js.parseString(data, {explicitArray : false}, function(err, json){ 
-          console.log(json)
+             console.log(json)
              _.map(json.data.node,item=>{
-              if(item){ 
-                console.log(item)
-                 var p = {}
-                 p.pic= 'file://'+require('path').join(baseUrl,item.$.pic) 
-                 p.name = item.$.textTitle
-                 p.py=pinyin(item.$.textTitle,{style:"firstLetter"}).join('')
-                 p.content = item.$.content
-                 p.time = item.$.say
-                 p.guid =item.$.guid
-                 p.pics = []
-                 
-                if(item.node){
-                  if(item.node instanceof Array){ 
-                    for(var i=0;i<item.node.length;i++){
-                      console.log(item.node[i])
-                      p.pics.push('file://'+require('path').join(baseUrl,item.node[i].$.pic));
-                    }
-                  }else{
-                    console.log(item.node)
-                    p.pics.push('file://'+require('path').join(baseUrl,item.node.$.pic))
-                  }
-                }
-                pics.push(p);
+              console.log(item)
+              if(item.$.name == '视频'){
+                video = {video: item.$.video}
               }
-              
-              return p
+              if(item.$.name== '国立十七中'){
+                pics1  = mapxj(item.node,'国立十七中')
+              }
+              if(item.$.name == '国立女子中学'){
+                pics2 = mapxj(item.node,'国立女子中学')
+              }
             }) 
-            event.sender.send('asynchronous-reply', {data:pics,base:baseUrl})
+           event.sender.send('asynchronous-reply', {pics1:pics1,pics2:pics2,video:video,base:baseUrl})
           })
         })
 })

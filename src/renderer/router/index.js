@@ -11,18 +11,33 @@ export default new Router({
       // component: require('@/components/LandingPage').default
       // component:require('@/components/MainPage').default
       // component:require('@/components/ListPage').default
-      component:require('@/components/xueji').default
+      component:()=>import('@/components/xueji')
       // component:require('@/components/Lichuli').default
     },
     {
       path:'/schoollist',
       name:'schoollist',
-      component:require('@/components/schoollist').default
+      component:()=>import('@/components/schoollist')
+    },
+    {
+      path:'/xuejilist/:id',
+      name:'xuejilist',
+      component:()=>import('@/components/xuejilist')
+    },
+    {
+      path:'/xj/:guid',
+      name:'xj',
+      component:()=>import('@/components/xjinfoPage')
     },
     {
       path:'/item/:id',
       name:'professor',
-      component:require('@/components/infoPage').default
+      component:()=>import('@/components/infoPage')
+    },
+    {
+      path:'/v',
+      name:'video',
+      component: ()=>import('@/components/vi')
     },
     {
       path: '*',

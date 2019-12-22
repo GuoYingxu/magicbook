@@ -1,6 +1,8 @@
 import _ from 'lodash'
 const state = {
-  pics:null,
+  pics1:[],
+  pics2: [],
+  video:{},
   json:[],
   pagePicAll:[],
   baseUrl:'',
@@ -11,8 +13,11 @@ const state = {
 
 const mutations = {
   GET_PICS (state,value) {
-    state.json = value.data 
+    state.pics1= value.pics1,
+    state.pics2 = value.pics2,
+    state.video = value.video, 
     state.baseUrl = value.base
+    console.log(state)
   },
   INCREMENT_MAIN_COUNTER (state) {
     state.main++
@@ -39,6 +44,7 @@ const actions = {
 
   require('electron').ipcRenderer.on('asynchronous-reply', (event, arg ) => {
       console.log('---------loaded xml')
+      console.log(arg)
       commit('GET_PICS',arg)
     })
   }

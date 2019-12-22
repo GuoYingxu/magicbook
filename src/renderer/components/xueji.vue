@@ -1,7 +1,7 @@
 <template >
     <div class='page'>
         <div class='bt1' :style="style1" @click="toSchoolList"> </div>
-        <div class='bt2' :style="style2"></div>
+        <div class='bt2' :style="style2" @click='showV'></div>
 
     </div>
 </template>
@@ -20,6 +20,9 @@ export default {
     methods:{
         toSchoolList(){
             this.$router.push('/schoollist')
+        },
+        showV(){
+            this.$router.push('/v')
         }
     }
 }

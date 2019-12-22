@@ -1,9 +1,21 @@
-<data name="professor">
-  
-<node name="新节点" guid="35B0319E-73DC-E308-CFA9-55A9748DBCAD1" nodetype="pic_only" pic="config/pic/1.png"/>
-<node name="新节点" guid="805D1090-8DEB-1BCE-9B91-8843D5AD3BE82" nodetype="pic_only" pic="config/pic/2.png"/>
-  
-<node name="新节点" guid="35B0319E-73DC-E308-CFA9-55A9748DBCAD5" nodetype="pic_only" pic="config/pic/1.png"/>
-<node name="新节点" guid="805D1090-8DEB-1BCE-9B91-8843D5AD3BE68" nodetype="pic_only" pic="config/pic/2.png"/>
- 
+<data name="学籍卡">
+  <node name="国立女子中学" guid="1" nodetype="base_only">
+    <node name="新节点" guid="35B0319E-73DC-E308-CFA9-55A9748DBCAD1" textTitle="张三1" nodetype="pic_only" pic="config/pic/1.png">
+      <node name="新节点" guid="A5779F6A-4F6E-CC83-1493-4458E1D6243D" nodetype="pic_only" pic="config/pic/172B293B-229A-C93C-9682-F6C0FDE6D3E4一级.jpg"/>
+      <node name="新节点" guid="63A72F28-2C4B-C933-ECE9-C8438AC7591E" nodetype="pic_only" pic="config/pic/4BE34C72-C746-3A54-4349-5577039E3399二级.jpg"/>
+    </node>
+    <node name="新节点" guid="805D1090-8DEB-1BCE-9B91-8843D5AD3BE82" textTitle="张三2" nodetype="pic_only" pic="config/pic/2.png"/>
+    <node name="新节点" guid="35B0319E-73DC-E308-CFA9-55A9748DBCAD5 " textTitle="张三3" nodetype="pic_only" pic="config/pic/1.png"/>
+    <node name="新节点" guid="805D1090-8DEB-1BCE-9B91-8843D5AD3BE68" textTitle="张三4" nodetype="pic_only" pic="config/pic/2.png"/>
+  </node>
+  <node name="国立十七中" guid="1" nodetype="base_only">
+    <node name="新节点" guid="35B0319E-73DC-E308-CFA9-55A9748DBCAD1" textTitle="张三1" nodetype="pic_only" pic="config/pic/1.png">
+      <node name="新节点" guid="A5779F6A-4F6E-CC83-1493-4458E1D6243D" nodetype="pic_only" pic="config/pic/172B293B-229A-C93C-9682-F6C0FDE6D3E4一级.jpg"/>
+      <node name="新节点" guid="63A72F28-2C4B-C933-ECE9-C8438AC7591E" nodetype="pic_only" pic="config/pic/4BE34C72-C746-3A54-4349-5577039E3399二级.jpg"/>
+    </node>
+    <node name="新节点" guid="805D1090-8DEB-1BCE-9B91-8843D5AD3BE82" textTitle="张三2" nodetype="pic_only" pic="config/pic/2.png"/>
+    <node name="新节点" guid="35B0319E-73DC-E308-CFA9-55A9748DBCAD5 " textTitle="张三3" nodetype="pic_only" pic="config/pic/1.png"/>
+    <node name="新节点" guid="805D1090-8DEB-1BCE-9B91-8843D5AD3BE68" textTitle="张三4" nodetype="pic_only" pic="config/pic/2.png"/>
+  </node>
+  <node name="视频" guid="25B43C79-A3BE-D9D7-E2F5-7CB7CEC305A6" nodetype="video_only" video="config/video/3.mp4"/>
 </data>
