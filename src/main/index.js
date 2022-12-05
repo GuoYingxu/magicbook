@@ -1,6 +1,7 @@
 import { app, BrowserWindow ,ipcMain,globalShortcut ,dialog } from 'electron'
 import * as xml2js from 'xml2js'
 import * as _ from 'lodash'
+import * as pinyin from 'node-pinyin'
 /**
  * Set `__static` path to static files in production
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-static-assets.html
@@ -50,8 +51,11 @@ function createWindow () {
     maxWidth:1920,
     frame:false,
     webPreferences: {
-      webSecurity: false,
-      plugins: true
+      nodeIntegration: true,
+    webSecurity:false,
+
+    plugins:true,
+    webviewTag:true
     },
     resizable :false,
     x:0,
@@ -104,36 +108,35 @@ ipcMain.on('asynchronous-message', (event, arg) => {
   
         require('fs').readFile(filePath,function(err,data){
         xml2js.parseString(data, {explicitArray : false}, function(err, json){ 
-        
-            //  _.map(json.data.node,item=>{
-            //   if(item){ 
-            //      var p = {}
-            //      p.pic= require('path').join(baseUrl,item.$.pic2) 
-            //      p.name = item.$.textTitle
-            //      p.py=pinyin(item.$.textTitle,{style:"firstLetter"}).join('')
-            //      p.content = item.$.content
-            //      p.time = item.$.say
-            //      p.guid =item.$.guid
-            //      p.pics = []
+          console.log(json)
+             _.map(json.data.node,item=>{
+              if(item){ 
+                 var p = {}
+                 p.pic= 'file://'+require('path').join(baseUrl,item.$.pic2) 
+                 p.name = item.$.textTitle
+                 p.py=pinyin(item.$.textTitle,{style:"firstLetter"}).join('')
+                 p.content = item.$.content
+                 p.time = item.$.say
+                 p.guid =item.$.guid
+                 p.pics = []
                  
-            //     if(item.node){
-            //       if(item.node instanceof Array){
-
-            //         for(var i=0;i<item.node.length;i++){
-            //           console.log(item.node[i])
-            //           p.pics.push(require('path').join(baseUrl,item.node[i].$.pic));
-            //         }
-            //       }else{
-            //         console.log(item.node)
-            //         p.pics.push(require('path').join(baseUrl,item.node.$.pic))
-            //       }
-            //     }
-            //     pics.push(p);
-            //   }
+                if(item.node){
+                  if(item.node instanceof Array){ 
+                    for(var i=0;i<item.node.length;i++){
+                      console.log(item.node[i])
+                      p.pics.push('file://'+require('path').join(baseUrl,item.node[i].$.pic));
+                    }
+                  }else{
+                    console.log(item.node)
+                    p.pics.push('file://'+require('path').join(baseUrl,item.node.$.pic))
+                  }
+                }
+                pics.push(p);
+              }
               
-            //   return p
-            // }) 
-            event.sender.send('asynchronous-reply', {data:json.data.node,base:baseUrl})
+              return p
+            }) 
+            event.sender.send('asynchronous-reply', {data:pics,base:baseUrl})
           })
         })
 })
